@@ -19,15 +19,16 @@ class ScrollOpciones extends StatefulWidget {
 }
 
 class _ScrollOpcionesState extends State<ScrollOpciones> {
-  final contoller = PageController(initialPage: 1, viewportFraction: 0.3);
+  final pageContoller = PageController(initialPage: 1, viewportFraction: 0.3);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       height: 120,
       child: PageView(
         pageSnapping: false,
-        controller: contoller,
+        controller: pageContoller,
         children: <Widget>[
           Opcion.seleccion(
             icon: FontAwesomeIcons.user,
