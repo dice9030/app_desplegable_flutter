@@ -51,7 +51,6 @@ class _DespliegueDecorativoHorizontalState
   }
 
   void toogle() {
-    print('xxxx');
     if (controller.value == 1.0) {
       if (actualAnimation == subirAnimation) {
         actualAnimation = bajarAnimation;
