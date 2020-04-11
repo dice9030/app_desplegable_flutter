@@ -12,17 +12,17 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Fondo(),
           DespliegueDecorativoHorizontal(
-            position: 0,
+            position: 160,
             color: AppColors.blue,
             child: Relleno(),
           ),
           DespliegueDecorativoHorizontal(
-            position: -80,
-            color: Colors.white,
+            position: 80,
+            color: Colors.grey[200],
             child: MiPerfil(),
           ),
           DespliegueDecorativoHorizontal(
-            position: -160,
+            position: 0,
             color: AppColors.lightBlue,
             child: Relleno(),
           ),
