@@ -5,57 +5,53 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ListaOpciones extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 110,
-      left: 6,
-      child: ScrollOpciones(),
+    return ScrollOpciones(
+      children: <Widget>[
+        Opcion.seleccion(
+          icon: FontAwesomeIcons.user,
+          titulo: 'Opcion1',
+          seleccionado: true,
+        ),
+        Opcion.seleccion(
+          icon: FontAwesomeIcons.facebook,
+          titulo: 'Opcion2',
+          seleccionado: false,
+        ),
+        Opcion.seleccion(
+          icon: FontAwesomeIcons.twitch,
+          titulo: 'Opcion3',
+          seleccionado: false,
+        ),
+        Opcion.seleccion(
+          icon: FontAwesomeIcons.twitter,
+          titulo: 'Opcion4',
+          seleccionado: false,
+        ),
+        Opcion.seleccion(
+          icon: FontAwesomeIcons.chair,
+          titulo: 'Opcion5',
+          seleccionado: false,
+        ),
+      ],
     );
   }
 }
 
-class ScrollOpciones extends StatefulWidget {
-  @override
-  _ScrollOpcionesState createState() => _ScrollOpcionesState();
-}
+class ScrollOpciones extends StatelessWidget {
+  const ScrollOpciones({Key key, this.children}) : super(key: key);
 
-class _ScrollOpcionesState extends State<ScrollOpciones> {
-  final pageContoller = PageController(initialPage: 1, viewportFraction: 0.3);
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 120,
-      child: PageView(
-        pageSnapping: false,
-        controller: pageContoller,
-        children: <Widget>[
-          Opcion.seleccion(
-            icon: FontAwesomeIcons.user,
-            titulo: 'Opcion1',
-            seleccionado: true,
-          ),
-          Opcion.seleccion(
-            icon: FontAwesomeIcons.facebook,
-            titulo: 'Opcion2',
-            seleccionado: false,
-          ),
-          Opcion.seleccion(
-            icon: FontAwesomeIcons.twitch,
-            titulo: 'Opcion3',
-            seleccionado: false,
-          ),
-          Opcion.seleccion(
-            icon: FontAwesomeIcons.twitter,
-            titulo: 'Opcion4',
-            seleccionado: false,
-          ),
-          Opcion.seleccion(
-            icon: FontAwesomeIcons.chair,
-            titulo: 'Opcion5',
-            seleccionado: false,
-          ),
-        ],
+      margin: const EdgeInsets.only(top: 20),
+      child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        scrollDirection: Axis.horizontal,
+        children: children,
       ),
     );
   }
@@ -95,7 +91,8 @@ class Opcion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+      width: 110,
       padding: EdgeInsets.only(top: 20, left: 20),
       decoration: BoxDecoration(
         color: this.color,
