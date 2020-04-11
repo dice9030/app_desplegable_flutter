@@ -20,21 +20,28 @@ class _DespliegueDecorativoHorizontalState
     extends State<DespliegueDecorativoHorizontal>
     with SingleTickerProviderStateMixin {
   double tamano = 0.0;
-  double cuadroSubir = 600.0;
-  double cuadroBajar = 300.0;
+
   AnimationController controller;
-  Animation<double> mover;
-  Animation<double> subir;
+  Animation<double> subirAnimation;
+  Animation<double> bajarAnimation;
+  Animation<double> actualAnimation;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
-    mover = Tween(begin: cuadroSubir, end: cuadroBajar)
-        .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
-    subir = Tween(begin: cuadroBajar, end: cuadroSubir).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack));
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    controller.addListener(() => setState(() {}));
+    final tween = Tween(begin: 0.0, end: 300.0);
+    subirAnimation = tween.animate(
+      CurvedAnimation(parent: controller, curve: Curves.elasticOut),
+    );
+    bajarAnimation = ReverseTween(tween).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeInOutBack),
+    );
+    actualAnimation = subirAnimation;
   }
 
   @override
@@ -43,43 +50,44 @@ class _DespliegueDecorativoHorizontalState
     super.dispose();
   }
 
+  void toogle() {
+    print('xxxx');
+    if (controller.value == 1.0) {
+      if (actualAnimation == subirAnimation) {
+        actualAnimation = bajarAnimation;
+      } else {
+        actualAnimation = subirAnimation;
+      }
+      controller.forward(from: 0.0);
+    } else if (controller.value == 0) {
+      controller.forward();
+    } else if (controller.status == AnimationStatus.forward) {
+      controller.reverse();
+    } else if (controller.status == AnimationStatus.reverse) {
+      controller.forward();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    controller.forward(from: 0.0);
+    final mqSize = MediaQuery.of(context).size;
     return Positioned(
-      bottom: widget.position,
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (BuildContext context, Widget child) {
-          return RawMaterialButton(
-            onPressed: () {
-              setState(() {
-                if (tamano == 0 || tamano == 300) {
-                  tamano = 600;
-                } else {
-                  tamano = 300;
-                }
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: widget.color,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
-                ),
-              ),
-              width: MediaQuery.of(context).size.width,
-              height: (tamano == 600)
-                  ? subir.value
-                  : ((tamano == 0.0) ? 300 : mover.value),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: widget.child,
-              ),
+      top: mqSize.height - widget.position - 160 - actualAnimation.value,
+      child: GestureDetector(
+        onTap: toogle,
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: widget.color,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
             ),
-          );
-        },
+          ),
+          width: mqSize.width,
+          height: mqSize.height,
+          child: widget.child,
+        ),
       ),
     );
   }
