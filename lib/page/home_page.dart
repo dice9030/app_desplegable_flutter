@@ -1,3 +1,4 @@
+import 'package:app_despliege_dc/colors/colors.dart';
 import 'package:app_despliege_dc/widget/exportwidget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
           Fondo(),
           DespliegueDecorativoHorizontal(
             position: 0,
-            color: Color(0xff1AA7E8),
+            color: AppColors.blue,
             child: Relleno(),
           ),
           DespliegueDecorativoHorizontal(
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
           ),
           DespliegueDecorativoHorizontal(
             position: -160,
-            color: Color(0xff45C4FF),
+            color: AppColors.lightBlue,
             child: Relleno(),
           ),
         ],
